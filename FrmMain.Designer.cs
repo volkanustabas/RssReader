@@ -30,52 +30,70 @@ namespace RssReader
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMain));
-            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.lb_rss_items = new System.Windows.Forms.ListBox();
             this.flp_content = new System.Windows.Forms.FlowLayoutPanel();
+            this.tlp_main = new System.Windows.Forms.TableLayoutPanel();
+            this.tlp_main.SuspendLayout();
             this.SuspendLayout();
             // 
-            // listBox1
+            // lb_rss_items
             // 
-            this.listBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.HorizontalScrollbar = true;
-            this.listBox1.Location = new System.Drawing.Point(15, 15);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(215, 511);
-            this.listBox1.Sorted = true;
-            this.listBox1.TabIndex = 1;
-            this.listBox1.DoubleClick += new System.EventHandler(this.listBox1_DoubleClick);
+            this.lb_rss_items.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lb_rss_items.FormattingEnabled = true;
+            this.lb_rss_items.HorizontalScrollbar = true;
+            this.lb_rss_items.Location = new System.Drawing.Point(8, 8);
+            this.lb_rss_items.Name = "lb_rss_items";
+            this.lb_rss_items.Size = new System.Drawing.Size(170, 425);
+            this.lb_rss_items.Sorted = true;
+            this.lb_rss_items.TabIndex = 1;
+            this.lb_rss_items.DoubleClick += new System.EventHandler(this.lb_rss_items_DoubleClick);
             // 
             // flp_content
             // 
-            this.flp_content.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.flp_content.AutoScroll = true;
-            this.flp_content.Location = new System.Drawing.Point(250, 15);
+            this.flp_content.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.flp_content.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flp_content.Location = new System.Drawing.Point(184, 8);
             this.flp_content.Name = "flp_content";
-            this.flp_content.Size = new System.Drawing.Size(720, 510);
+            this.flp_content.Size = new System.Drawing.Size(522, 425);
             this.flp_content.TabIndex = 2;
+            // 
+            // tlp_main
+            // 
+            this.tlp_main.ColumnCount = 2;
+            this.tlp_main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tlp_main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 75F));
+            this.tlp_main.Controls.Add(this.lb_rss_items, 0, 0);
+            this.tlp_main.Controls.Add(this.flp_content, 1, 0);
+            this.tlp_main.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlp_main.Location = new System.Drawing.Point(0, 0);
+            this.tlp_main.Name = "tlp_main";
+            this.tlp_main.Padding = new System.Windows.Forms.Padding(5);
+            this.tlp_main.RowCount = 1;
+            this.tlp_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlp_main.Size = new System.Drawing.Size(714, 441);
+            this.tlp_main.TabIndex = 3;
             // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(984, 537);
-            this.Controls.Add(this.flp_content);
-            this.Controls.Add(this.listBox1);
+            this.ClientSize = new System.Drawing.Size(714, 441);
+            this.Controls.Add(this.tlp_main);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MinimumSize = new System.Drawing.Size(730, 480);
             this.Name = "FrmMain";
             this.Text = "RssReader";
             this.Load += new System.EventHandler(this.FrmMain_Load);
+            this.tlp_main.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
-        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.ListBox lb_rss_items;
         private System.Windows.Forms.FlowLayoutPanel flp_content;
+        private System.Windows.Forms.TableLayoutPanel tlp_main;
     }
 }
 

@@ -15,11 +15,8 @@ namespace RssReader
 
         public void FillListBox()
         {
-            listBox1.Items.Add("https://www.tomshardware.com/feeds/all");
-            listBox1.Items.Add("https://www.techradar.com/rss");
-            listBox1.Items.Add("https://www.cnet.com/rss/news/");
-            listBox1.Items.Add("https://webrazzi.com/feed/");
-            listBox1.Items.Add("https://evrimagaci.org/rss.xml");
+            lb_rss_items.Items.Add("https://evrimagaci.org/rss.xml");
+            lb_rss_items.Items.Add("https://www.aa.com.tr/rss/ajansguncel.xml");
         }
 
         private void FrmMain_Load(object sender, EventArgs e)
@@ -29,35 +26,57 @@ namespace RssReader
 
         private async void GetRss()
         {
-            var feedUrl = listBox1.Items[listBox1.SelectedIndex].ToString();
+            var feedUrl = lb_rss_items.Items[lb_rss_items.SelectedIndex].ToString();
 
             var feed = await FeedReader.ReadAsync(feedUrl);
             var xDocument = XDocument.Parse(feed.OriginalDocument);
             if (xDocument.Root != null)
             {
                 var xNamespace = xDocument.Root.GetDefaultNamespace();
+
+                string thumbnail = null;
+
                 foreach (var item in feed.Items)
                 {
                     var baseFeedItem = item.SpecificItem;
-                    string thumbnail = null;
-                    if (baseFeedItem.Element.Descendants().Any(x => x.Name.LocalName == xNamespace + "thumbnail"))
-                        thumbnail = baseFeedItem.Element.Descendants()
-                            .First(x => x.Name.LocalName == xNamespace + "thumbnail").Attribute("url")
-                            ?.Value;
 
-                    var rss = new FrmSingle();
-                    rss.lbl_title.Text = ClearText(item.Title);
-                    rss.rtb_content.Text = Environment.NewLine + ClearText(item.Description);
-                    rss.lbl_url.Text = item.Link;
-                    rss.lbl_date.Text = item.PublishingDateString;
-                    rss.pb_image.ImageLocation = thumbnail;
-                    rss.pb_image.SizeMode = PictureBoxSizeMode.StretchImage;
-                    rss.Margin = new Padding(0, -7, 0, 0);
 
-                    rss.rtb_content.SelectAll();
-                    rss.rtb_content.SelectionIndent += 5;
+                    if (lb_rss_items.SelectedItem.ToString() == "https://www.aa.com.tr/rss/ajansguncel.xml")
+                    {
+                        if (baseFeedItem.Element.Descendants().Any(x => x.Name.LocalName == xNamespace + "image"))
+                            thumbnail = baseFeedItem.Element.Descendants()
+                                .First(x => x.Name.LocalName == xNamespace + "image")
+                                ?.Value;
+                    }
+                    else if (lb_rss_items.SelectedItem.ToString() == "https://evrimagaci.org/rss.xml")
 
-                    flp_content.Controls.Add(rss);
+                    {
+                        if (baseFeedItem.Element.Descendants().Any(x => x.Name.LocalName == xNamespace + "content"))
+                            thumbnail = baseFeedItem.Element.Descendants()
+                                .First(x => x.Name.LocalName == xNamespace + "content").Attribute("url")
+                                ?.Value;
+                    }
+
+                    else
+                    {
+                        if (baseFeedItem.Element.Descendants().Any(x => x.Name.LocalName == xNamespace + "thumbnail"))
+                            thumbnail = baseFeedItem.Element.Descendants()
+                                .First(x => x.Name.LocalName == xNamespace + "thumbnail").Attribute("url")
+                                ?.Value;
+                    }
+
+                    var rssSingle = new FrmSingle();
+                    rssSingle.lbl_title.Text = ClearText(item.Title);
+                    rssSingle.rtb_content.Text = Environment.NewLine + ClearText(item.Description);
+                    rssSingle.lbl_url.Text = item.Link;
+                    rssSingle.lbl_date.Text = item.PublishingDateString;
+                    rssSingle.pb_image.ImageLocation = thumbnail;
+                    rssSingle.pb_image.SizeMode = PictureBoxSizeMode.StretchImage;
+                    rssSingle.Margin = new Padding(0, -7, 0, 0);
+
+                    rssSingle.rtb_content.SelectAll();
+                    rssSingle.rtb_content.SelectionIndent += 5;
+                    flp_content.Controls.Add(rssSingle);
                 }
             }
         }
@@ -77,7 +96,7 @@ namespace RssReader
             }
         }
 
-        private void listBox1_DoubleClick(object sender, EventArgs e)
+        private void lb_rss_items_DoubleClick(object sender, EventArgs e)
         {
             flp_content.Controls.Clear();
             GetRss();

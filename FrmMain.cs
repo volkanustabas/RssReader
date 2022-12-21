@@ -17,6 +17,8 @@ namespace RssReader
         {
             lb_rss_items.Items.Add("https://evrimagaci.org/rss.xml");
             lb_rss_items.Items.Add("https://www.aa.com.tr/rss/ajansguncel.xml");
+            lb_rss_items.Items.Add("https://www.cnet.com/rss/news/");
+            lb_rss_items.Items.Add("https://www.bleepingcomputer.com/feed/");
         }
 
         private void FrmMain_Load(object sender, EventArgs e)
@@ -66,10 +68,11 @@ namespace RssReader
                     }
 
                     var rssSingle = new FrmSingle();
-                    rssSingle.lbl_title.Text = ClearText(item.Title);
+                    rssSingle.tb_title.Text = ClearText(item.Title);
                     rssSingle.rtb_content.Text = Environment.NewLine + ClearText(item.Description);
                     rssSingle.lbl_url.Text = item.Link;
-                    rssSingle.lbl_date.Text = item.PublishingDateString;
+                    rssSingle.lbl_date.Text =
+                        Convert.ToDateTime(item.PublishingDateString).ToString("yyyyMMdd-HH:mm:ss");
                     rssSingle.pb_image.ImageLocation = thumbnail;
                     rssSingle.pb_image.SizeMode = PictureBoxSizeMode.StretchImage;
                     rssSingle.Margin = new Padding(0, -7, 0, 0);
